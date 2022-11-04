@@ -1,13 +1,16 @@
+import { FC } from 'react';
+import { ReactNodeProps } from '~/src/types/view-types';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Layout from '../core/Layout';
 
-const HomeLayout = () => {
+const HomeLayout: FC<ReactNodeProps> = ({ children }) => {
   return (
-    <Layout>
+    <>
       <Header />
+
       <Footer />
-    </Layout>
+    </>
   );
 };
 
