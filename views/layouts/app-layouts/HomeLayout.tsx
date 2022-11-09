@@ -8,7 +8,7 @@ const HomeLayout: FC<ReactNodeProps> = ({ children }) => {
   return (
     <>
       <Header />
-
+      {children}
       <Footer />
     </>
   );
