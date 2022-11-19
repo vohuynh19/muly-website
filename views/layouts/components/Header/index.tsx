@@ -12,6 +12,7 @@ import AvatarPopoverView from './PopoverView/AvatarPopoverView';
 import { Wrapper, Logo, BodyWrapper, LeftTabList, RightTabList, UnderlineItem, DepositButton } from './styled';
 import { useRef, useState } from 'react';
 import PopoverCore, { PopoverCoreHandle } from '@components/core/popover';
+import { uuid } from '~/libs';
 
 const linkList = [
   {
@@ -57,6 +58,7 @@ const Header = () => {
         <LeftTabList>
           {linkList.map((item) => (
             <UnderlineItem
+              key={uuid()}
               onClick={() => {
                 router.push(item.url);
               }}

@@ -18,6 +18,7 @@
     "paths": {
       "~/*": ["./*"],
       "@src/*": ["./src/*"],
+      "@lib/*": ["./libs/*"],
       "@components/*": ["./views/components/*"],
       "@layouts/*": ["./views/layouts/*"],
       "@pages/*": ["./views/pages/*"],
