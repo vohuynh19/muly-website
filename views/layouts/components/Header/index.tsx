@@ -1,18 +1,21 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
+
 import PAGES_ROUTES from '~/src/routes';
-import PopoverIconButton from '@components/widgets/PopoverIconButton';
-import SearchBar from './SearchBar';
-import DownloadPopoverView from './PopoverView/DownloadPopoverView';
-import MySubscribePopoverView from './PopoverView/MySubscribePopoverView';
-import HistoryPopoverView from './PopoverView/HistoryPopoverView';
-import CountryPopoverView from './PopoverView/CountryPopoverView';
-import Icons from '~/src/assets/icons';
-import SettingPopoverView from './PopoverView/SettingPopoverView';
-import AvatarPopoverView from './PopoverView/AvatarPopoverView';
-import { Wrapper, Logo, BodyWrapper, LeftTabList, RightTabList, UnderlineItem, DepositButton } from './styled';
-import { useRef, useState } from 'react';
-import PopoverCore, { PopoverCoreHandle } from '@components/core/popover';
 import { uuid } from '~/libs';
+
+import { Icon, PopoverIconButton } from '@ui';
+import SearchBar from './SearchBar';
+import {
+  AvatarPopoverView,
+  CountryPopoverView,
+  DownloadPopoverView,
+  HistoryPopoverView,
+  MySubscribePopoverView,
+  SettingPopoverView,
+} from './PopoverView';
+
+import { Wrapper, Logo, BodyWrapper, LeftTabList, RightTabList, UnderlineItem, DepositButton } from './styled';
 
 const linkList = [
   {
@@ -34,25 +37,9 @@ const Header = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const popoverRef = useRef<PopoverCoreHandle>(null);
-
   return (
     <Wrapper>
-      <Logo onClick={() => popoverRef.current?.toggle()} />
-
-      <PopoverCore
-        ref={popoverRef}
-        popoverView={
-          <div style={{ backgroundColor: 'red' }}>
-            <div>dasdassad</div>
-            <div>dasdassad</div>
-            <div>dasdassad</div>
-            <div>dasdassad</div>
-          </div>
-        }
-      >
-        <span>alo</span>
-      </PopoverCore>
+      <Logo />
 
       <BodyWrapper>
         <LeftTabList>
@@ -72,7 +59,7 @@ const Header = () => {
         <RightTabList>
           <SearchBar />
           <DepositButton>
-            <Icons.DOWNLOAD />
+            <Icon name="download" />
             <div>Nạp</div>
           </DepositButton>
 
@@ -83,7 +70,7 @@ const Header = () => {
             }}
             popoverView={<DownloadPopoverView />}
           >
-            <Icons.DOWNLOAD />
+            <Icon name="download" />
           </PopoverIconButton>
 
           <PopoverIconButton
@@ -92,26 +79,26 @@ const Header = () => {
             }}
             popoverView={<MySubscribePopoverView />}
           >
-            <Icons.DOWNLOAD />
+            <Icon name="download" />
           </PopoverIconButton>
           <PopoverIconButton popoverView={<HistoryPopoverView />}>
-            <Icons.DOWNLOAD />
+            <Icon name="download" />
           </PopoverIconButton>
 
           <PopoverIconButton popoverView={<CountryPopoverView />} behavior="click">
-            <Icons.FLAG />
+            <Icon name="download" />
           </PopoverIconButton>
 
           <PopoverIconButton popoverView={<CountryPopoverView />} behavior="click">
-            <Icons.FLAG />
+            <Icon name="download" />
           </PopoverIconButton>
 
           <PopoverIconButton popoverView={<SettingPopoverView />} behavior="click">
-            <Icons.SETTING />
+            <Icon name="download" />
           </PopoverIconButton>
 
           <PopoverIconButton popoverView={<AvatarPopoverView />} behavior="click">
-            <Icons.SETTING />
+            <Icon name="download" />
           </PopoverIconButton>
         </RightTabList>
       </BodyWrapper>
