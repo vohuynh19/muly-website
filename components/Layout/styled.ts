@@ -11,6 +11,38 @@ export const StyledLayout = styled(Layout)`
   .css-dev-only-do-not-override-1i6yeeq {
     font-family: ${({ theme }) => theme.fontFamily};
   }
+
+  .ant-layout-sider-trigger {
+    position: static;
+    background-color: ${({ theme }) => theme.colors.sBg};
+    border: 1px solid ${({ theme }) => theme.colors.border};
+  }
+
+  .ant-layout-sider-has-trigger {
+    .ant-layout-sider-trigger {
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .ant-layout-sider-children {
+    background-color: ${({ theme }) => theme.colors.sBg};
+  }
+
+  .ant-layout-sider {
+    background-color: ${({ theme }) => theme.colors.sBg};
+  }
+
+  .ant-layout-sider {
+    display: flex;
+    flex-direction: column-reverse !important;
+  }
 `;
 
 export const StyledSider = styled(Sider)`
@@ -69,11 +101,36 @@ export const StyledMenu = styled(Menu)`
     }
     .ant-menu-item-selected {
       color: ${({ theme }) => theme.colors.text} !important;
+      background-color: ${({ theme }) => theme.colors.hBg} !important;
     }
+
     .ant-menu-item {
-      height: 40px;
+      height: 48px;
       display: flex;
       align-items: center;
+      border: 1px solid ${({ theme }) => theme.colors.border};
+      border-radius: 0px;
+      margin-inline: 0;
+      margin-inline: 0;
+
+      width: calc(100% - 1px);
+      margin-block: 0;
+
+      svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .ant-menu-title-content {
+        margin-inline-start: 32px !important;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      &:hover {
+        color: ${({ theme }) => theme.colors.secondaryText} !important;
+        background-color: ${({ theme }) => theme.colors.hBg} !important;
+      }
     }
   }
 `;
