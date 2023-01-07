@@ -7,22 +7,32 @@ const mock = [
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
+    title: 'Loc Phu Ho',
+    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
+    title: 'Loc Phu Ho',
+    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
+    title: 'Loc Phu Ho',
+    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
+    title: 'Loc Phu Ho',
+    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
+    title: 'Loc Phu Ho',
+    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
   },
 ];
 const Home = () => {
@@ -50,7 +60,7 @@ const Home = () => {
         <Text>Hot Streamers</Text>
         <HorizontalList>
           {mock.map((streamRoom) => (
-            <Item id={streamRoom.id} src={streamRoom.src} />
+            <Item {...streamRoom} />
           ))}
         </HorizontalList>
       </Section>
