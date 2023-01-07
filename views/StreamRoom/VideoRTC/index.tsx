@@ -16,7 +16,7 @@ const pc_config = {
   ],
 };
 const myEmail = 'sample@naver.com';
-const SOCKET_SERVER_URL = 'http://localhost:8080';
+const SOCKET_SERVER_URL = '18.144.54.166:8080';
 
 const StreamRoomTest = () => {
   const socketRef = useRef<Socket<any, any>>();
@@ -37,6 +37,8 @@ const StreamRoomTest = () => {
       localStreamRef.current = localStream;
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
       if (!socketRef.current) return;
+      console.log('run here', socketRef.current);
+
       socketRef.current.emit('join_room', {
         room: '1234',
         email: myEmail,
@@ -97,12 +99,9 @@ const StreamRoomTest = () => {
   useEffect(() => {
     socketRef.current = io(SOCKET_SERVER_URL, {
       transports: ['websocket'],
+      port: '8080',
     });
 
-    //
-    // join room and send join room
-    // room: 'streamerRoom',
-    // email: 'viewer @email.com',
     getLocalStream();
 
     socketRef.current.on('all_users', (allUsers: Array<{ id: string; email: string }>) => {
@@ -185,9 +184,10 @@ const StreamRoomTest = () => {
     });
 
     return () => {
-      if (socketRef.current) {
-        socketRef.current.disconnect();
+      if (socketRef.current && socketRef.current.connected) {
+        socketRef.current?.disconnect();
       }
+
       users.forEach((user) => {
         if (!pcsRef.current[user.id]) return;
         pcsRef.current[user.id].close();

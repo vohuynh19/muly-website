@@ -3,6 +3,7 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 import { Content, Head, ItemWrapper, MessageContent, Username, Wrapper } from './styled';
 import TextInput from './TextInput';
+import { uuid } from '@src/utils/functions/uuid';
 
 type MessageType = {
   senderName: string;
@@ -27,7 +28,7 @@ const ChatBox = () => {
 
       <Content>
         {messages.map((message) => (
-          <Message {...message} />
+          <Message key={uuid()} {...message} />
         ))}
       </Content>
 
