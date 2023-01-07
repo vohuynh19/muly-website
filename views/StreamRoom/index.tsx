@@ -1,17 +1,17 @@
 import { Col, Row } from 'antd';
 
 import ChatBox from './ChatBox';
-import StreamerInfo from './StreamerInfo';
 import VideoInfo from './VideoInfo';
-import VideoPlayer from './VideoPlayer';
+import VideoReaction from './VideoReaction';
+import VideoRTC from './VideoRTC';
 
 const StreamRoom = () => {
   return (
     <Row>
       <Col span={18}>
-        <VideoPlayer />
         <VideoInfo />
-        <StreamerInfo />
+        <VideoRTC />
+        <VideoReaction />
       </Col>
 
       <Col span={6}>

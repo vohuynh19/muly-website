@@ -6,12 +6,11 @@ const Container = styled.div`
   display: inline-block;
   width: 240px;
   height: 270px;
-  margin: 5px;
 `;
 
 const VideoContainer = styled.video`
-  width: 240px;
-  height: 240px;
+  width: 600px;
+  height: 600px;
   background-color: black;
 `;
 

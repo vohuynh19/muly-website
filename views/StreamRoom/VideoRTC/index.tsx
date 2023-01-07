@@ -201,15 +201,15 @@ const StreamRoomTest = () => {
     <div>
       <video
         style={{
-          width: 240,
-          height: 240,
-          margin: 5,
+          width: '100%',
+          height: '480px',
           backgroundColor: 'black',
         }}
         muted
         ref={localVideoRef}
         autoPlay
       />
+
       {users.map((user, index) => (
         <Video key={index} email={user.email} stream={user.stream} />
       ))}
