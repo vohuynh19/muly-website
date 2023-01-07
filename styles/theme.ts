@@ -18,6 +18,7 @@ export const themes = {
     text: '#f9f9f9',
     secondaryText: '#aaa',
     icon: '#6f7d95',
+    active: '#0dcaf0',
   },
   spaces: {
     sm: '4px',
