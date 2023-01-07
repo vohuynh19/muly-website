@@ -12,6 +12,12 @@
     "prettier:fix": "npx prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.5",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.3",
     "@next/font": "^13.1.1",
     "@svgr/webpack": "^6.5.1",
     "@types/node": "18.11.9",
