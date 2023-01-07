@@ -1,13 +1,19 @@
+import { useState, useContext } from 'react';
 import { Popover, Row, Space, Col, Button } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
 import TranslateIcon from '@mui/icons-material/Translate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
-
+import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import AppContext from '@src/contexts/AppContext';
+import { useLocale } from '@src/hooks/useLocale';
 import { PAGE_ROUTES } from '@src/utils/constants/routes';
+
+import SearchBar from '../SearchBar';
+import { footerColumns, localePopoverContent, itemList } from '.';
 
 import {
   CloseButton,
@@ -19,13 +25,6 @@ import {
   StyledLayout,
   StyledMenu,
 } from './styled';
-import SearchBar from '../SearchBar';
-import { footerColumns, localePopoverContent, itemList } from '.';
-import { useState } from 'react';
-import { useContext } from 'react';
-import AppContext from '@src/contexts/AppContext';
-import { useLocale } from '@src/hooks/useLocale';
-import CloseIcon from '@mui/icons-material/Close';
 
 const MobileLayout = ({ children }: any) => {
   const { t } = useLocale('common');
