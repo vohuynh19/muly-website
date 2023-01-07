@@ -1,7 +1,10 @@
-import { Popover, Row, Space, type MenuProps, Col } from 'antd';
-import { FC, useContext } from 'react';
+import { Popover, Row, Space, type MenuProps, Col, Button } from 'antd';
+import { FC, useContext, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import TranslateIcon from '@mui/icons-material/Translate';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import ModeNightIcon from '@mui/icons-material/ModeNight';
 
 import { PAGE_ROUTES } from '@src/utils/constants/routes';
 import { useLocale } from '@src/hooks/useLocale';
@@ -17,6 +20,7 @@ import {
   StyledMenu,
   LocaleItem,
 } from './styled';
+import SearchBar from '../SearchBar';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -27,6 +31,7 @@ type Props = {
 const Layout: FC<Props> = ({ children }) => {
   const { t } = useLocale('common');
   const { isDark, switchTheme, setLocaleSetting } = useContext(AppContext);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <StyledLayout>
@@ -35,18 +40,29 @@ const Layout: FC<Props> = ({ children }) => {
           <Image height={64} width={120} alt="fav" src={'/assets/images/logo.png'} />
         </Link>
 
-        <StyledMenu mode="horizontal" items={itemList(t)} defaultOpenKeys={['board']} defaultSelectedKeys={['0']} />
+        <div style={{ flex: 1 }}>
+          <SearchBar />
+        </div>
 
         <Space align="center" size="large">
           <Popover content={localePopoverContent(t, setLocaleSetting)}>
-            <HeaderIcon></HeaderIcon>
+            <HeaderIcon>
+              <TranslateIcon />
+            </HeaderIcon>
           </Popover>
 
-          <HeaderIcon></HeaderIcon>
+          <HeaderIcon onClick={() => switchTheme(!isDark)}>{isDark ? <DarkModeIcon /> : <ModeNightIcon />}</HeaderIcon>
+
+          <Button type="primary">Sign in</Button>
         </Space>
       </StyledHeader>
 
-      <StyledContent>{children}</StyledContent>
+      <StyledLayout>
+        <StyledLayout.Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+          <StyledMenu mode="vertical" items={itemList(t)} defaultOpenKeys={['board']} defaultSelectedKeys={['0']} />
+        </StyledLayout.Sider>
+        <StyledContent>{children}</StyledContent>
+      </StyledLayout>
 
       <StyledFooter>
         <Row>
@@ -57,7 +73,7 @@ const Layout: FC<Props> = ({ children }) => {
 
                 {col.children.map((row) => (
                   <Link key={row.title} href={row.link}>
-                    <p>{row.title}</p>
+                    <div>{row.title}</div>
                   </Link>
                 ))}
               </Col>
@@ -90,8 +106,7 @@ const localePopoverContent = (t: any, setLocaleSetting: any) => {
 
 const itemList = (t: any): MenuItem[] => [
   getItem('home', <Link href={PAGE_ROUTES.HOME}>{t('home')}</Link>),
-  getItem('questions', <Link href={PAGE_ROUTES.QUESTIONS}>{t('questions')}</Link>),
-  getItem('createQuest', <Link href={PAGE_ROUTES.CREATE_QUEST}>{t('createQuest')}</Link>),
+  getItem('stream-room', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('stream room')}</Link>),
 ];
 
 const getItem = (
