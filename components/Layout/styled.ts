@@ -18,6 +18,7 @@ export const StyledSider = styled(Sider)`
     background-color: ${({ theme }) => theme.colors.hBg} !important;
   }
 `;
+
 export const StyledHeader = styled(Header)`
   & {
     background-color: transparent !important;
@@ -26,7 +27,7 @@ export const StyledHeader = styled(Header)`
     height: 100%;
     align-items: center;
     padding-inline: 32px !important;
-    background: ${({ theme }) => `linear-gradient(#d574fe,${theme.colors.primary})`} !important;
+    background: ${({ theme }) => theme.colors.sBg} !important;
   }
 
   .ant-space-item {
@@ -36,9 +37,6 @@ export const StyledHeader = styled(Header)`
   .logo {
     display: flex;
     align-items: center;
-    font-weight: 500;
-    font-size: 20px;
-    color: ${({ theme }) => theme.colors.textContrast};
     margin-right: 20px;
   }
 
@@ -48,7 +46,8 @@ export const StyledHeader = styled(Header)`
 `;
 export const StyledFooter = styled(Footer)`
   & {
-    background-color: ${({ theme }) => theme.colors.bg} !important;
+    background-color: ${({ theme }) => theme.colors.sBg} !important;
+    color: ${({ theme }) => theme.colors.text} !important;
   }
 `;
 export const StyledContent = styled(Content)`
@@ -64,12 +63,12 @@ export const StyledMenu = styled(Menu)`
     flex: 1;
     background-color: transparent !important;
     font-size: ${({ theme }) => theme.fs.lg};
-    color: ${({ theme }) => theme.colors.textContrast};
+    color: ${({ theme }) => theme.colors.text};
     svg {
       font-size: ${({ theme }) => theme.fs.lg};
     }
     .ant-menu-item-selected {
-      color: ${({ theme }) => theme.colors.textContrast} !important;
+      color: ${({ theme }) => theme.colors.text} !important;
     }
     .ant-menu-item {
       height: 40px;
@@ -93,6 +92,10 @@ export const HeaderIcon = styled.div`
   padding: ${({ theme }) => theme.spaces.md};
   &:hover {
     background-color: ${({ theme }) => theme.colors.sBg};
+  }
+
+  svg {
+    color: ${({ theme }) => theme.colors.text};
   }
 `;
 
