@@ -1,19 +1,13 @@
-import styled from 'styled-components';
-import Icon from '~/views/components/widgets/Icon';
+import Head from 'next/head';
 
-const TestStyle = styled.div`
-  color: red;
-`;
-
-export default function Home() {
+const View = () => {
   return (
-    <div>
-      <Icon name="download" color={'red'} />
-      <TestStyle>Helloworld</TestStyle>
-      <TestStyle>Helloworld</TestStyle>
-      <TestStyle>Helloworld</TestStyle>
-      <TestStyle>Helloworld</TestStyle>
-      <TestStyle>Helloworld</TestStyle>
-    </div>
+    <>
+      <Head>
+        <title>Loper website</title>
+      </Head>
+    </>
   );
-}
+};
+
+export default View;

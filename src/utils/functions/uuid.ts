@@ -1,10 +1,3 @@
-import crypto from 'crypto';
+import { v4 } from "uuid";
 
-const uuid = () => {
-  return crypto.randomUUID();
-};
-
-/**
- * Create random id
- */
-export default uuid;
+export const uuid = () => v4();
