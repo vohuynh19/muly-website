@@ -16,6 +16,17 @@ export const StyledLayout = styled(Layout)`
     position: static;
     background-color: ${({ theme }) => theme.colors.sBg};
     border: 1px solid ${({ theme }) => theme.colors.border};
+
+    @media (max-width: 768px) {
+      display: none !important;
+    }
+  }
+
+  .ant-layout-sider-collapsed {
+    @media (max-width: 768px) {
+      max-width: 0px !important;
+      min-width: 0px !important;
+    }
   }
 
   .ant-layout-sider-has-trigger {
@@ -37,12 +48,33 @@ export const StyledLayout = styled(Layout)`
 
   .ant-layout-sider {
     background-color: ${({ theme }) => theme.colors.sBg};
+
+    .close-icon {
+      color: ${({ theme }) => theme.colors.text};
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+    }
   }
 
   .ant-layout-sider {
     display: flex;
     flex-direction: column-reverse !important;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      z-index: 100;
+      height: 100vh;
+    }
   }
+
+  .pc-sider {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  overflow: hidden !important;
 `;
 
 export const StyledSider = styled(Sider)`
@@ -74,6 +106,23 @@ export const StyledHeader = styled(Header)`
 
   img {
     margin-right: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .pc-nav-header {
+      display: none;
+    }
+  }
+
+  .menu-icon {
+    display: none;
+    @media (max-width: 768px) {
+      display: inline-block !important;
+    }
+  }
+
+  svg {
+    color: ${({ theme }) => theme.colors.text};
   }
 `;
 export const StyledFooter = styled(Footer)`
@@ -166,4 +215,16 @@ export const LocaleItem = styled(Button)`
 `;
 export const LoginButton = styled(Button)`
   width: 120px;
+`;
+
+export const CloseButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 64px;
+`;
+
+export const MobileHeader = styled.div`
+  overflow: hidden;
+  display: flex;
 `;
