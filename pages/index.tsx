@@ -1,3 +1,4 @@
+import Home from '@views/Home';
 import Head from 'next/head';
 
 const View = () => {
@@ -6,6 +7,7 @@ const View = () => {
       <Head>
         <title>Loper website</title>
       </Head>
+      <Home />
     </>
   );
 };
