@@ -1,11 +1,35 @@
+import { uuid } from '@src/utils/functions/uuid';
 import { Col, Row } from 'antd';
-import { Card, Text } from './styled';
+import Item from './Item';
+import { Card, HorizontalList, Section, Text } from './styled';
 
+const mock = [
+  {
+    id: uuid(),
+    src: 'assets/images/video-thumbnail-3.jpeg',
+  },
+  {
+    id: uuid(),
+    src: 'assets/images/video-thumbnail-3.jpeg',
+  },
+  {
+    id: uuid(),
+    src: 'assets/images/video-thumbnail-3.jpeg',
+  },
+  {
+    id: uuid(),
+    src: 'assets/images/video-thumbnail-3.jpeg',
+  },
+  {
+    id: uuid(),
+    src: 'assets/images/video-thumbnail-3.jpeg',
+  },
+];
 const Home = () => {
   return (
     <div>
       <Row>
-        <Col xs={24} sm={12} md={12}>
+        <Col xs={24} sm={24} md={12}>
           <Card src="assets/images/video-thumbnail-1.jpeg" height={400} />
         </Col>
         <Col xs={0} sm={0} md={12}>
@@ -22,11 +46,14 @@ const Home = () => {
           </Row>
         </Col>
       </Row>
-      <Row>
-        <Col>
-          <Text></Text>
-        </Col>
-      </Row>
+      <Section>
+        <Text>Hot Streamers</Text>
+        <HorizontalList>
+          {mock.map((streamRoom) => (
+            <Item id={streamRoom.id} src={streamRoom.src} />
+          ))}
+        </HorizontalList>
+      </Section>
     </div>
   );
 };
