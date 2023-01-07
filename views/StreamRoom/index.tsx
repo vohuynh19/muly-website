@@ -4,7 +4,7 @@ const StreamRoom = () => {
   return (
     <Row>
       <Col xs={12} sm={12} md={12}>
-        <div style={{ width: '100%', minHeight: '600px', backgroundColor: 'red' }}> </div>
+        <div style={{ width: '100%', minHeight: '600px', backgroundColor: 'grey' }}> </div>
       </Col>
 
       <Col xs={12} sm={12} md={12}>
