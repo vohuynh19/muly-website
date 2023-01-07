@@ -92,10 +92,6 @@ export const footerColumns = (t: any) => [
         title: 'Facebook',
         link: '/',
       },
-      {
-        title: 'Twitter',
-        link: '/',
-      },
     ],
   },
   {
