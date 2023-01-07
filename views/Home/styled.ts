@@ -1,9 +1,20 @@
 import styled from 'styled-components';
 type CardProps = {
   src: string;
+  height: number;
 };
 export const Card = styled.div<CardProps>`
-  height: 200px;
+  height: ${({ height }) => `${height}px`};
+  width: 100%;
   background-color: white;
-  background-image: ${({ src }) => src};
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: ${({ src }) => `url(${src})`};
+`;
+
+export const Text = styled.div`
+  font-size: ${({ theme }) => theme.fs.lg};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.text};
 `;
