@@ -18,13 +18,8 @@
     "paths": {
       "~/*": ["./*"],
       "@src/*": ["./src/*"],
-      "@lib/*": ["./libs/*"],
-      "@components/*": ["./views/components/*"],
-      "@ui": ["./views/components/widgets/index"],
-      "@ui/*": ["./views/components/widgets/*"],
-      "@layouts/*": ["./views/layouts/*"],
-      "@pages/*": ["./views/pages/*"],
-      "@styles/*": ["./views/styles/*"]
+      "@component/*": ["./component/*"],
+      "@views/*": ["./views/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
