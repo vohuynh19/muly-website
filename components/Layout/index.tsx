@@ -8,7 +8,6 @@ import { useLocale } from '@src/hooks/useLocale';
 import AppContext from '@src/contexts/AppContext';
 
 import {
-  AppLogo,
   HeaderIcon,
   LocaleWrapper,
   StyledContent,
@@ -33,8 +32,7 @@ const Layout: FC<Props> = ({ children }) => {
     <StyledLayout>
       <StyledHeader>
         <Link className="logo" href={PAGE_ROUTES.HOME}>
-          <Image width={44} height={44} alt="fav" src={'https://raroin.creabik.com/assets/img/logos/raroin.svg'} />
-          Funding Block
+          <Image height={64} width={120} alt="fav" src={'/assets/images/logo.png'} />
         </Link>
 
         <StyledMenu mode="horizontal" items={itemList(t)} defaultOpenKeys={['board']} defaultSelectedKeys={['0']} />
@@ -66,7 +64,7 @@ const Layout: FC<Props> = ({ children }) => {
             );
           })}
           <Col span={24 / (footerColumns(t).length + 1)} style={{ textAlign: 'center' }}>
-            <Image width={100} height={100} alt="fav" src={'https://raroin.creabik.com/assets/img/logos/raroin.svg'} />
+            <Image width={100} height={100} alt="fav" src={'/assets/images/favicon.png'} />
             <Link href="/">
               <h1>Download now</h1>
             </Link>

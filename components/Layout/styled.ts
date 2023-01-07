@@ -1,6 +1,5 @@
-import { Button, Layout, Menu } from "antd";
-import styled from "styled-components";
-import VercelLogo from "~/public/vercel.svg";
+import { Button, Layout, Menu } from 'antd';
+import styled from 'styled-components';
 
 const { Sider, Header, Footer, Content } = Layout;
 
@@ -27,8 +26,7 @@ export const StyledHeader = styled(Header)`
     height: 100%;
     align-items: center;
     padding-inline: 32px !important;
-    background: ${({ theme }) =>
-      `linear-gradient(#d574fe,${theme.colors.primary})`} !important;
+    background: ${({ theme }) => `linear-gradient(#d574fe,${theme.colors.primary})`} !important;
   }
 
   .ant-space-item {
@@ -81,7 +79,7 @@ export const StyledMenu = styled(Menu)`
   }
 `;
 
-export const AppLogo = styled(VercelLogo)`
+export const AppLogo = styled.img`
   padding: ${({ theme }) => `${theme.spaces.lg} ${theme.spaces.xl}`};
   cursor: pointer;
   width: 200px;
