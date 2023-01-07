@@ -5,6 +5,9 @@ import Image from 'next/image';
 import TranslateIcon from '@mui/icons-material/Translate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
+import HomeIcon from '@mui/icons-material/Home';
+import CastIcon from '@mui/icons-material/Cast';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 import { PAGE_ROUTES } from '@src/utils/constants/routes';
 import { useLocale } from '@src/hooks/useLocale';
@@ -105,8 +108,9 @@ const localePopoverContent = (t: any, setLocaleSetting: any) => {
 };
 
 const itemList = (t: any): MenuItem[] => [
-  getItem('home', <Link href={PAGE_ROUTES.HOME}>{t('home')}</Link>),
-  getItem('stream-room', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('stream room')}</Link>),
+  getItem('home', <Link href={PAGE_ROUTES.HOME}>{t('home')}</Link>, <HomeIcon />),
+  getItem('stream-room', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('Stream')}</Link>, <CastIcon />),
+  getItem('profile', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('Profile')}</Link>, <AccountBoxIcon />),
 ];
 
 const getItem = (
