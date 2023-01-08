@@ -40,7 +40,9 @@ const PCLayout = ({ children }: any) => {
 
           <HeaderIcon onClick={() => switchTheme(!isDark)}>{isDark ? <DarkModeIcon /> : <ModeNightIcon />}</HeaderIcon>
 
-          <Button type="primary">Sign in</Button>
+          <Link href={PAGE_ROUTES.LOGIN}>
+            <Button type="primary">Sign in</Button>
+          </Link>
         </Space>
       </StyledHeader>
 
