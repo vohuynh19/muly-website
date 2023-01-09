@@ -1,3 +1,4 @@
+import useDebouncedCallback from '@src/hooks/useDebounceCallback';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io, { Socket } from 'socket.io-client';
 import Video from './Video';
@@ -15,8 +16,8 @@ const pc_config = {
     },
   ],
 };
-const myEmail = 'sample@naver.com';
-const SOCKET_SERVER_URL = '18.144.54.166:8080';
+const myEmail = 'vohuynh01092002@gmail.com';
+const SOCKET_SERVER_URL = '18.144.54.166:9001';
 
 const StreamRoomTest = () => {
   const socketRef = useRef<Socket<any, any>>();
@@ -25,7 +26,7 @@ const StreamRoomTest = () => {
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
 
-  const getLocalStream = useCallback(async () => {
+  const getLocalStream = useDebouncedCallback(async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -46,7 +47,7 @@ const StreamRoomTest = () => {
     } catch (e) {
       console.log(`getUserMedia error: ${e}`);
     }
-  }, []);
+  }, 500);
 
   const createPeerConnection = useCallback((socketID: string, email: string) => {
     try {
@@ -99,7 +100,6 @@ const StreamRoomTest = () => {
   useEffect(() => {
     socketRef.current = io(SOCKET_SERVER_URL, {
       transports: ['websocket'],
-      port: '8080',
     });
 
     getLocalStream();
@@ -199,6 +199,7 @@ const StreamRoomTest = () => {
 
   return (
     <div>
+      <div>{users.length}</div>
       <video
         style={{
           width: '100%',
