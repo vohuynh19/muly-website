@@ -106,8 +106,6 @@ const StreamRoomTest = () => {
       transports: ['websocket'],
     });
 
-    console.log('rerun');
-
     getLocalStream();
 
     socketRef.current.on('all_users', (allUsers: Array<{ id: string; email: string }>) => {
@@ -201,7 +199,7 @@ const StreamRoomTest = () => {
       });
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createPeerConnection, getLocalStream]);
+  }, [createPeerConnection]);
 
   return (
     <div>
