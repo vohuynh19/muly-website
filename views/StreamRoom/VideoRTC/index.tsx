@@ -26,28 +26,32 @@ const StreamRoomTest = () => {
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
 
-  const getLocalStream = useDebouncedCallback(async () => {
-    try {
-      const localStream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: {
-          width: 240,
-          height: 240,
-        },
-      });
-      localStreamRef.current = localStream;
-      if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
-      if (!socketRef.current) return;
-      console.log('run here', socketRef.current);
+  const getLocalStream = useDebouncedCallback(
+    async () => {
+      try {
+        const localStream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: {
+            width: 240,
+            height: 240,
+          },
+        });
+        localStreamRef.current = localStream;
+        if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
+        if (!socketRef.current) return;
+        console.log('run here', socketRef.current);
 
-      socketRef.current.emit('join_room', {
-        room: '1234',
-        email: myEmail,
-      });
-    } catch (e) {
-      console.log(`getUserMedia error: ${e}`);
-    }
-  }, 500);
+        socketRef.current.emit('join_room', {
+          room: '1234',
+          email: myEmail,
+        });
+      } catch (e) {
+        console.log(`getUserMedia error: ${e}`);
+      }
+    },
+    500,
+    [],
+  );
 
   const createPeerConnection = useCallback((socketID: string, email: string) => {
     try {
@@ -101,6 +105,8 @@ const StreamRoomTest = () => {
     socketRef.current = io(SOCKET_SERVER_URL, {
       transports: ['websocket'],
     });
+
+    console.log('rerun');
 
     getLocalStream();
 
