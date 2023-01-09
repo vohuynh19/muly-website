@@ -21,7 +21,7 @@ type Props = {
 
 const Layout: FC<Props> = ({ children }) => {
   const { width } = useWindowSizes();
-  return width < 768 ? <MobileLayout children={children} /> : <PCLayout children={children} />;
+  return width < 768 ? <MobileLayout>{children}</MobileLayout> : <PCLayout>{children}</PCLayout>;
 };
 
 export const localePopoverContent = (t: any, setLocaleSetting: any) => {

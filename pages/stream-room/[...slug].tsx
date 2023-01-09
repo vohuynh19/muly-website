@@ -1,6 +1,6 @@
 import StreamRoom from '@views/StreamRoom';
 import Head from 'next/head';
-export default () => {
+const StreamRoomPage = () => {
   return (
     <>
       <Head>
@@ -10,3 +10,5 @@ export default () => {
     </>
   );
 };
+
+export default StreamRoomPage;

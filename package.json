@@ -43,7 +43,6 @@
   "resolutions": {
     "styled-components": "^5"
   },
-  "proxy":"http://localhost:8080",
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/styled-components": "^5.1.26",
