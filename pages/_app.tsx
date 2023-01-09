@@ -11,7 +11,7 @@ import AppContext, { defaultUser, defaultSetting } from '@src/contexts/AppContex
 import { COOKIE_KEY } from '@src/utils/constants/key';
 import createEmotionCache from '@src/utils/functions/createEmotionCache';
 
-import { LayoutComponent } from '../components';
+import LayoutComponent from '@components/Layout';
 import { themes, GlobalStyle } from '~/styles/theme';
 import '../styles/globals.scss';
 

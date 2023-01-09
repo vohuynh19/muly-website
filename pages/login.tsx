@@ -1,15 +1,16 @@
+import Login from '@views/Login';
 import Head from 'next/head';
 
-const Login = () => {
+const LoginPage = () => {
   return (
     <>
       <Head>
         <title>Login</title>
       </Head>
 
-      <div>Vai lon</div>
+      <Login />
     </>
   );
 };
 
-export default Login;
+export default LoginPage;
