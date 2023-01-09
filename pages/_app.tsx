@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import Cookie from 'js-cookie';
 import { ThemeProvider } from 'styled-components';
@@ -51,7 +51,7 @@ export default function App({ Component, pageProps, emotionCache = clientSideEmo
   const [user, setUser] = useState(defaultUser);
   const [accountSettings, setAccountSettings] = useState(defaultSetting);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setInit(true);
   }, []);
 
