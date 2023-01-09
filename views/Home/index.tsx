@@ -40,18 +40,18 @@ const Home = () => {
     <div>
       <Row>
         <Col xs={24} sm={24} md={12}>
-          <Card src="assets/images/video-thumbnail-1.jpeg" height={400} />
+          <Card style={{ backgroundImage: 'url(assets/images/video-thumbnail-1.jpeg)' }} height={400} />
         </Col>
         <Col xs={0} sm={0} md={12}>
           <Row>
             <Col span={24}>
-              <Card src="assets/images/video-thumbnail-2.jpeg" height={200} />
+              <Card style={{ backgroundImage: 'url(assets/images/video-thumbnail-2.jpeg)' }} height={200} />
             </Col>
             <Col span={12} style={{ backgroundColor: 'green', height: '200px' }}>
-              <Card src="assets/images/video-thumbnail-3.jpeg" height={200} />
+              <Card style={{ backgroundImage: 'url(assets/images/video-thumbnail-3.jpeg)' }} height={200} />
             </Col>
             <Col span={12} style={{ backgroundColor: 'black', height: '200px' }}>
-              <Card src="assets/images/video-thumbnail-3.jpeg" height={200} />
+              <Card style={{ backgroundImage: 'url(assets/images/video-thumbnail-3.jpeg)' }} height={200} />
             </Col>
           </Row>
         </Col>
@@ -60,7 +60,7 @@ const Home = () => {
         <Text>Hot Streamers</Text>
         <HorizontalList>
           {mock.map((streamRoom) => (
-            <Item {...streamRoom} />
+            <Item key={uuid()} {...streamRoom} />
           ))}
         </HorizontalList>
       </Section>

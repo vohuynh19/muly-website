@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 type CardProps = {
-  src: string;
   height: number;
 };
 
@@ -11,7 +10,6 @@ export const Card = styled.div<CardProps>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: ${({ src }) => `url(${src})`};
 `;
 
 export const Text = styled.div`
