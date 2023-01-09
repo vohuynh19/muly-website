@@ -1,12 +1,12 @@
-import React from 'react';
+import { useCallback, useRef } from 'react';
 
 const useDebouncedCallback = (callback: Function, delay: number, dependencies?: any[]) => {
-  const timeout = React.useRef<any>();
+  const timeout = useRef<any>();
 
   // Avoid error about spreading non-iterable (undefined)
   const comboDeps = dependencies ? [callback, delay, ...dependencies] : [callback, delay];
 
-  return React.useCallback((...args: any) => {
+  return useCallback((...args: any) => {
     if (timeout.current != null) {
       clearTimeout(timeout.current);
     }
