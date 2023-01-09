@@ -14,7 +14,7 @@ type ItemProps = {
 const Item: FC<ItemProps> = (props: ItemProps) => {
   return (
     <Link href={PAGE_ROUTES.STREAM_ROOM(props.id)}>
-      <ItemWrapper src={props.src}>
+      <ItemWrapper style={{ backgroundImage: `url(${props.src})` }}>
         <Text bottom={40} left={16} weight={700} size="lg">
           {props.title}
         </Text>

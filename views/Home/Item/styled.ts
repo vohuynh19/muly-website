@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 
-type ItemProps = {
-  src: string;
-};
-
-export const ItemWrapper = styled.div<ItemProps>`
+export const ItemWrapper = styled.div`
   height: 256px;
   width: 455px;
   position: relative;
@@ -14,7 +10,6 @@ export const ItemWrapper = styled.div<ItemProps>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: ${({ src }) => `url(${src})`};
 
   @media (max-width: 768px) {
     width: 100%;
