@@ -5,20 +5,24 @@ import VideoInfo from './VideoInfo';
 import VideoReaction from './VideoReaction';
 import VideoRTC from './VideoRTC';
 
-const StreamRoom = () => {
-  return (
-    <Row>
-      <Col span={18}>
-        <VideoInfo />
-        <VideoRTC />
-        <VideoReaction />
-      </Col>
+// const StreamRoom = () => {
+//   return (
+//     <Row>
+//       <Col span={18}>
+//         <VideoInfo />
+//         <VideoRTC />
+//         <VideoReaction />
+//       </Col>
 
-      <Col span={6}>
-        <ChatBox />
-      </Col>
-    </Row>
-  );
+//       <Col span={6}>
+//         <ChatBox />
+//       </Col>
+//     </Row>
+//   );
+// };
+
+const StreamRoom = () => {
+  return <div>Alo</div>;
 };
 
 export default StreamRoom;

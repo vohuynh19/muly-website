@@ -39,8 +39,8 @@ export const localePopoverContent = (t: any, setLocaleSetting: any) => {
 
 export const itemList = (t: any): MenuItem[] => [
   getItem('home', <Link href={PAGE_ROUTES.HOME}>{t('home')}</Link>, <HomeIcon />),
-  getItem('stream-room', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('Stream')}</Link>, <CastIcon />),
-  getItem('profile', <Link href={PAGE_ROUTES.STREAM_ROOM('1')}>{t('Profile')}</Link>, <AccountBoxIcon />),
+  getItem('stream', <Link href={PAGE_ROUTES.STREAM}>{t('Stream')}</Link>, <CastIcon />),
+  getItem('profile', <Link href={PAGE_ROUTES.PROFILE}>{t('Profile')}</Link>, <AccountBoxIcon />),
 ];
 
 export const getItem = (
