@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
 import useInstanceRef from './useInstanceRef';
 
+const PC_CONFIG = {
+  iceServers: [
+    {
+      urls: 'stun:stun.l.google.com:19302',
+    },
+  ],
+};
+
 export function useConnection(channelId: number, debug: boolean = false): [RTCPeerConnection, RTCDataChannel, boolean] {
   // Connection ref
-
-  const pc = useInstanceRef(
-    () =>
-      new RTCPeerConnection({
-        iceServers: [{ urls: ['stun:stunserver.org'] }],
-      }),
-  );
+  const pc = useInstanceRef(() => new RTCPeerConnection(PC_CONFIG));
 
   // Channel ref
   const channel = useInstanceRef(() =>
