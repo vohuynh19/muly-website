@@ -1,13 +1,7 @@
-import useDebouncedCallback from '@src/hooks/useDebounceCallback';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import io, { Socket } from 'socket.io-client';
-import Video from './Video';
-
-export type WebRTCUser = {
-  id: string;
-  email: string;
-  stream: MediaStream;
-};
+import React, { useEffect, useRef, useState } from 'react';
+import io from 'socket.io-client';
+import Peer from 'simple-peer';
+import styled from 'styled-components';
 
 const pc_config = {
   iceServers: [
@@ -32,211 +26,133 @@ const pc_config = {
   ],
 };
 
-const myEmail = 'vohuynh01092002@gmail.com';
-const SOCKET_SERVER_URL = '18.144.54.166:9001';
+const Container = styled.div`
+  padding: 20px;
+  display: flex;
+  height: 100vh;
+  width: 90%;
+  margin: auto;
+  flex-wrap: wrap;
+`;
 
-const StreamRoomTest = () => {
-  const socketRef = useRef<Socket<any, any>>();
-  const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
-  const localVideoRef = useRef<HTMLVideoElement>(null);
-  const localStreamRef = useRef<MediaStream>();
-  const [users, setUsers] = useState<WebRTCUser[]>([]);
+const StyledVideo = styled.video`
+  height: 40%;
+  width: 50%;
+`;
 
-  const getLocalStream = useDebouncedCallback(
-    async () => {
-      try {
-        const localStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: {
-            width: 240,
-            height: 240,
-          },
-        });
-        localStreamRef.current = localStream;
-        if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
-        if (!socketRef.current) return;
-        console.log('run here', socketRef.current);
+const Video = (props: any) => {
+  const ref = useRef<any>();
 
-        socketRef.current.emit('join_room', {
-          room: '1234',
-          email: myEmail,
-        });
-      } catch (e) {
-        console.log(`getUserMedia error: ${e}`);
-      }
-    },
-    500,
-    [],
-  );
-
-  const createPeerConnection = useCallback((socketID: string, email: string) => {
-    try {
-      const pc = new RTCPeerConnection(pc_config);
-
-      pc.onicecandidate = (e) => {
-        if (!(socketRef.current && e.candidate)) return;
-        console.log('onicecandidate');
-        socketRef.current.emit('candidate', {
-          candidate: e.candidate,
-          candidateSendID: socketRef.current.id,
-          candidateReceiveID: socketID,
-        });
-      };
-
-      pc.oniceconnectionstatechange = (e) => {
-        console.log(e);
-      };
-
-      pc.ontrack = (e) => {
-        console.log('ontrack success');
-        setUsers((oldUsers) =>
-          oldUsers
-            .filter((user) => user.id !== socketID)
-            .concat({
-              id: socketID,
-              email,
-              stream: e.streams[0],
-            }),
-        );
-      };
-
-      if (localStreamRef.current) {
-        console.log('localstream add');
-        localStreamRef.current.getTracks().forEach((track) => {
-          if (!localStreamRef.current) return;
-          console.log('add track');
-          pc.addTrack(track, localStreamRef.current);
-        });
-      } else {
-        console.log('no local stream');
-      }
-
-      return pc;
-    } catch (e) {
-      console.error(e);
-      return undefined;
-    }
+  useEffect(() => {
+    props.peer.on('stream', (stream: any) => {
+      ref.current.srcObject = stream;
+    });
   }, []);
+
+  return <StyledVideo playsInline autoPlay ref={ref} />;
+};
+
+const SOCKET_SERVER_URL = '18.144.54.166:8000';
+
+const Room = (props: any) => {
+  const [peers, setPeers] = useState<any>([]);
+  const socketRef = useRef<any>();
+  const userVideo = useRef<any>();
+  const peersRef = useRef<any>([]);
+  const roomID = props.slug;
 
   useEffect(() => {
     socketRef.current = io(SOCKET_SERVER_URL, {
       transports: ['websocket'],
     });
 
-    getLocalStream();
-
-    socketRef.current.on('all_users', (allUsers: Array<{ id: string; email: string }>) => {
-      allUsers.forEach(async (user) => {
-        // id: socket.id, email: data.email
-        if (!localStreamRef.current) return;
-        const pc = createPeerConnection(user.id, user.email);
-        if (!(pc && socketRef.current)) return;
-        pcsRef.current = { ...pcsRef.current, [user.id]: pc };
-
-        try {
-          const localSdp = await pc.createOffer({
-            offerToReceiveAudio: true,
-            offerToReceiveVideo: true,
-          });
-
-          console.log('create offer success');
-          await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-          socketRef.current.emit('offer', {
-            sdp: localSdp,
-            offerSendID: socketRef.current.id,
-            offerSendEmail: myEmail,
-            offerReceiveID: user.id,
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      });
-    });
-
-    socketRef.current.on(
-      'getOffer',
-      async (data: { sdp: RTCSessionDescription; offerSendID: string; offerSendEmail: string }) => {
-        const { sdp, offerSendID, offerSendEmail } = data;
-        console.log('get offer');
-        if (!localStreamRef.current) return;
-        const pc = createPeerConnection(offerSendID, offerSendEmail);
-        if (!(pc && socketRef.current)) return;
-        pcsRef.current = { ...pcsRef.current, [offerSendID]: pc };
-        try {
-          await pc.setRemoteDescription(new RTCSessionDescription(sdp));
-          console.log('answer set remote description success');
-          const localSdp = await pc.createAnswer({
-            offerToReceiveVideo: true,
-            offerToReceiveAudio: true,
-          });
-          await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-          socketRef.current.emit('answer', {
-            sdp: localSdp,
-            answerSendID: socketRef.current.id,
-            answerReceiveID: offerSendID,
-          });
-        } catch (e) {
-          console.error(e);
-        }
-      },
-    );
-
-    socketRef.current.on('getAnswer', (data: { sdp: RTCSessionDescription; answerSendID: string }) => {
-      const { sdp, answerSendID } = data;
-      console.log('get answer');
-      const pc: RTCPeerConnection = pcsRef.current[answerSendID];
-      if (!pc) return;
-      pc.setRemoteDescription(new RTCSessionDescription(sdp));
-    });
-
-    socketRef.current.on('getCandidate', async (data: { candidate: RTCIceCandidateInit; candidateSendID: string }) => {
-      console.log('get candidate');
-      const pc: RTCPeerConnection = pcsRef.current[data.candidateSendID];
-      if (!pc) return;
-      await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
-      console.log('candidate add success');
-    });
-
-    socketRef.current.on('user_exit', (data: { id: string }) => {
-      if (!pcsRef.current[data.id]) return;
-      pcsRef.current[data.id].close();
-      delete pcsRef.current[data.id];
-      setUsers((oldUsers) => oldUsers.filter((user) => user.id !== data.id));
-    });
-
-    return () => {
-      if (socketRef.current && socketRef.current.connected) {
-        socketRef.current?.disconnect();
-      }
-
-      users.forEach((user) => {
-        if (!pcsRef.current[user.id]) return;
-        pcsRef.current[user.id].close();
-        delete pcsRef.current[user.id];
-      });
+    const videoConstraints = {
+      height: window.innerHeight / 2,
+      width: window.innerWidth / 2,
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createPeerConnection]);
+
+    navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
+      if (userVideo.current) userVideo.current.srcObject = stream;
+      socketRef.current.emit('join room', roomID);
+
+      socketRef.current.on('all users', (users: any) => {
+        const peers: any = [];
+        users.forEach((userID: any) => {
+          const peer = createPeer(userID, socketRef.current.id, stream);
+
+          peersRef.current.push({
+            peerID: userID,
+            peer,
+          });
+
+          peers.push(peer);
+        });
+        setPeers(peers);
+      });
+
+      socketRef.current.on('user joined', (payload: any) => {
+        console.log('user joined');
+
+        const peer = addPeer(payload.signal, payload.callerID, stream);
+
+        peersRef.current.push({
+          peerID: payload.callerID,
+          peer,
+        });
+
+        setPeers((users: any) => [...users, peer]);
+      });
+
+      socketRef.current.on('receiving returned signal', (payload: any) => {
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        item.peer.signal(payload.signal);
+      });
+    });
+  }, []);
+
+  function createPeer(userToSignal: any, callerID: any, stream: any) {
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream,
+      config: pc_config,
+    });
+
+    peer.on('signal', (signal) => {
+      socketRef.current.emit('sending signal', {
+        userToSignal,
+        callerID,
+        signal,
+      });
+    });
+
+    return peer;
+  }
+
+  function addPeer(incomingSignal: any, callerID: any, stream: any) {
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+      config: pc_config,
+    });
+
+    peer.on('signal', (signal) => {
+      socketRef.current.emit('returning signal', { signal, callerID });
+    });
+    peer.signal(incomingSignal);
+    return peer;
+  }
 
   return (
-    <div>
-      <div>{users.length}</div>
-      <video
-        style={{
-          width: '100%',
-          height: '480px',
-          backgroundColor: 'black',
-        }}
-        muted
-        ref={localVideoRef}
-        autoPlay
-      />
+    <Container>
+      <video muted ref={userVideo} autoPlay playsInline />
 
-      {users.map((user, index) => (
-        <Video key={index} email={user.email} stream={user.stream} />
-      ))}
-    </div>
+      {peers.map((peer: any, index: any) => {
+        return <Video key={index} peer={peer} />;
+      })}
+    </Container>
   );
 };
 
-export default StreamRoomTest;
+export default Room;

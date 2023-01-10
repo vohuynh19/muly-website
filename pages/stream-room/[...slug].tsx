@@ -1,15 +1,16 @@
 import StreamRoom from '@views/StreamRoom';
-import StreamRoomTest from '@views/StreamRoom/VideoRTC';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 const StreamRoomPage = () => {
+  const router = useRouter();
+  const { slug } = router.query;
   return (
     <>
       <Head>
         <title>Loc phu ho</title>
       </Head>
-      {/* <StreamRoom /> */}
-
-      <StreamRoomTest />
+      <StreamRoom slug={slug?.[0]} />
     </>
   );
 };
