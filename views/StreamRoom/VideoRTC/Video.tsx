@@ -34,6 +34,7 @@ const Video = ({ email, stream, muted }: Props) => {
   useEffect(() => {
     if (ref.current) ref.current.srcObject = stream;
     if (muted) setIsMuted(muted);
+    // stream.getTracks().forEach((track) => console.log(track));
   }, [stream, muted]);
 
   return (
