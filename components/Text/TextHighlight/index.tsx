@@ -33,7 +33,7 @@ const TextHighlight: FC<Props> = ({ autoEscape, caseSensitive = false, text, hig
   const memoizedLowercaseProps = memoizeOne(lowercaseProps);
 
   return (
-    <div>
+    <>
       {chunks.map((chunk, index) => {
         const chunkText = text.substr(chunk.start, chunk.end - chunk.start);
 
@@ -64,7 +64,7 @@ const TextHighlight: FC<Props> = ({ autoEscape, caseSensitive = false, text, hig
           return createElement(unHighlightText, props);
         }
       })}
-    </div>
+    </>
   );
 };
 

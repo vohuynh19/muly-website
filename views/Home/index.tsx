@@ -1,10 +1,6 @@
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
 import { uuid } from '@src/utils/functions/uuid';
-import { Col, Row } from 'antd';
-import { useRouter } from 'next/router';
-import ReactPlayer from 'react-player';
 import Item from './Item';
-import { Card, HorizontalList, Section, Text } from './styled';
+import { HorizontalList, Section, Text } from './styled';
 
 const mock = [
   {
@@ -39,12 +35,6 @@ const mock = [
   },
 ];
 const Home = () => {
-  const router = useRouter();
-
-  const routingHandler = () => {
-    router.push(PAGE_ROUTES.STREAM_ROOM('1'));
-  };
-
   return (
     <div>
       <div style={{ padding: '16px 24px' }}>
