@@ -1,96 +1,165 @@
-import axiosInstance from '@src/apis/axios';
-import { Button, Col, Input, InputRef, Row } from 'antd';
-import { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import io from 'socket.io-client';
+import Peer from 'simple-peer';
+import styled from 'styled-components';
 
-const PC_CONFIG = {
+const pc_config = {
   iceServers: [
     {
-      urls: 'stun:stun.l.google.com:19302',
+      urls: 'stun:relay.metered.ca:80',
+    },
+    {
+      urls: 'turn:relay.metered.ca:80',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
+    },
+    {
+      urls: 'turn:relay.metered.ca:443',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
+    },
+    {
+      urls: 'turn:relay.metered.ca:443?transport=tcp',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
     },
   ],
 };
 
-const sentLocalSdp = async (localSdp: RTCSessionDescriptionInit) => {
-  await axiosInstance.post('http://localhost:9000/chat/sdp', localSdp);
+const Container = styled.div`
+  padding: 20px;
+  display: flex;
+  height: 100vh;
+  width: 90%;
+  margin: auto;
+  flex-wrap: wrap;
+`;
+
+const StyledVideo = styled.video`
+  height: 40%;
+  width: 50%;
+`;
+
+const Video = (props: any) => {
+  const ref = useRef<any>();
+
+  useEffect(() => {
+    props.peer.on('stream', (stream: any) => {
+      ref.current.srcObject = stream;
+    });
+  }, []);
+
+  return <StyledVideo playsInline autoPlay ref={ref} />;
 };
 
-const getRemoteSdp = async (): Promise<RTCSessionDescriptionInit> => {
-  const { data } = await axiosInstance.get('http://localhost:9000/chat/sdp/hello');
-  return {
-    sdp: data[0].sdp,
-    type: data[0].type,
-  };
+const SOCKET_SERVER_URL = '18.144.54.166:8000';
+
+const videoConstraints = {
+  height: window.innerHeight / 2,
+  width: window.innerWidth / 2,
 };
 
-const Stream = () => {
-  const pc = useRef<RTCPeerConnection | null>(null);
-  const localStreamRef = useRef<MediaStream | null>(null);
-  const localVideoRef = useRef<HTMLVideoElement>(null);
+const Room = (props: any) => {
+  const [peers, setPeers] = useState<any>([]);
+  const socketRef = useRef<any>();
+  const userVideo = useRef<any>();
+  const peersRef = useRef<any>([]);
+  const roomID = '1';
 
-  const startStream = async () => {
-    pc.current = new RTCPeerConnection(PC_CONFIG);
-
-    pc.current.onicecandidate = (e) => {
-      console.log('onicecandidate', e);
-    };
-
-    pc.current.oniceconnectionstatechange = (e) => {
-      console.log('oniceconnectionstatechange', e);
-    };
-
-    pc.current.ontrack = (e) => {
-      console.log('ontrack success', e);
-    };
-
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-      video: {
-        width: 240,
-        height: 240,
-      },
+  useEffect(() => {
+    socketRef.current = io(SOCKET_SERVER_URL, {
+      transports: ['websocket'],
     });
-    localStreamRef.current = localStream;
-    if (localVideoRef.current) {
-      localVideoRef.current.srcObject = localStream;
-      console.log('gogogo');
-    }
-  };
 
-  const createAnswer = async () => {
-    const localSdp = await pc.current?.createAnswer({
-      offerToReceiveVideo: true,
-      offerToReceiveAudio: true,
+    navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: true }).then((stream) => {
+      userVideo.current.srcObject = stream;
+      socketRef.current.emit('join room', roomID);
+
+      console.log('all users');
+
+      socketRef.current.on('all users', (users: any) => {
+        const peers: any = [];
+        users.forEach((userID: any) => {
+          const peer = createPeer(userID, socketRef.current.id, stream);
+
+          peersRef.current.push({
+            peerID: userID,
+            peer,
+          });
+
+          peers.push(peer);
+        });
+        setPeers(peers);
+      });
+
+      // Kết nối với các peer có sẳn
+      socketRef.current.on('user joined', (payload: any) => {
+        console.log('user joined');
+
+        const peer = addPeer(payload.signal, payload.callerID, stream);
+        peersRef.current.push({
+          peerID: payload.callerID,
+          peer,
+        });
+
+        setPeers((users: any) => [...users, peer]);
+      });
+
+      socketRef.current.on('receiving returned signal', (payload: any) => {
+        const item = peersRef.current.find((p: any) => p.peerID === payload.id);
+        item.peer.signal(payload.signal);
+      });
     });
-    if (!localSdp) return;
+  }, []);
 
-    await pc.current?.setLocalDescription(new RTCSessionDescription(localSdp));
-    await sentLocalSdp(localSdp);
-  };
+  function createPeer(userToSignal: any, callerID: any, stream: any) {
+    const peer = new Peer({
+      initiator: true,
+      trickle: false,
+      stream,
+      config: pc_config,
+    });
 
-  const acceptOffer = async () => {
-    const sdp = await getRemoteSdp();
-    await pc.current?.setRemoteDescription(sdp);
-  };
+    peer.on('signal', (signal) => {
+      console.log('sending signal');
+
+      socketRef.current.emit('sending signal', {
+        userToSignal,
+        callerID,
+        signal,
+      });
+    });
+
+    return peer;
+  }
+
+  function addPeer(incomingSignal: any, callerID: any, stream: any) {
+    console.log('addPeer');
+
+    const peer = new Peer({
+      initiator: false,
+      trickle: false,
+      stream,
+      config: pc_config,
+    });
+
+    peer.on('signal', (signal) => {
+      socketRef.current.emit('returning signal', { signal, callerID });
+    });
+
+    peer.signal(incomingSignal);
+
+    return peer;
+  }
 
   return (
-    <Row>
-      <Col span={24}>
-        <Button onClick={startStream}>Start Stream</Button>
-      </Col>
-
-      <Col span={24}>
-        <Button onClick={acceptOffer}>Accept Offer SDP</Button>
-      </Col>
-
-      <Col span={24}>
-        <Button onClick={createAnswer}>Create Answer SDP</Button>
-      </Col>
-
-      <Col span={24}>
-        <video autoPlay muted={true} ref={localVideoRef} style={{ width: 240, height: 240 }} />
-      </Col>
-    </Row>
+    <Container>
+      <StyledVideo muted ref={userVideo} autoPlay playsInline />
+      {peers.map((peer: any, index: any) => {
+        return <Video key={index} peer={peer} />;
+      })}
+    </Container>
   );
 };
 
-export default Stream;
+export default Room;
