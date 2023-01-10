@@ -10,6 +10,11 @@ export const Card = styled.div<CardProps>`
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  cursor: pointer;
+  :hover {
+    opacity: 0.8;
+  }
 `;
 
 export const Text = styled.div`
