@@ -12,10 +12,26 @@ export type WebRTCUser = {
 const pc_config = {
   iceServers: [
     {
-      urls: 'stun:stun.l.google.com:19302',
+      urls: 'stun:relay.metered.ca:80',
+    },
+    {
+      urls: 'turn:relay.metered.ca:80',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
+    },
+    {
+      urls: 'turn:relay.metered.ca:443',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
+    },
+    {
+      urls: 'turn:relay.metered.ca:443?transport=tcp',
+      username: 'c68320f96ec907f1df6af2d1',
+      credential: '8ishceLvdUrTBe2n',
     },
   ],
 };
+
 const myEmail = 'vohuynh01092002@gmail.com';
 const SOCKET_SERVER_URL = '18.144.54.166:9001';
 
@@ -88,6 +104,7 @@ const StreamRoomTest = () => {
         console.log('localstream add');
         localStreamRef.current.getTracks().forEach((track) => {
           if (!localStreamRef.current) return;
+          console.log('add track');
           pc.addTrack(track, localStreamRef.current);
         });
       } else {
