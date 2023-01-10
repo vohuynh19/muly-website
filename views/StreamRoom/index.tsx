@@ -1,3 +1,4 @@
+import axiosInstance from '@src/apis/axios';
 import { Button, Col, Input, InputRef, Row } from 'antd';
 import { useRef, useState } from 'react';
 
@@ -30,11 +31,20 @@ const PC_CONFIG = {
   ],
 };
 
+const sentLocalSdp = async (localSdp: RTCSessionDescriptionInit) => {
+  await axiosInstance.post('http://localhost:9000/chat/sdp', localSdp);
+};
+
+const getRemoteSdp = async (): Promise<RTCSessionDescriptionInit> => {
+  const { data } = await axiosInstance.get('http://localhost:9000/chat/sdp/hello');
+  return {
+    sdp: data[0].sdp,
+    type: data[0].type,
+  };
+};
 const StreamRoom = () => {
-  const inputRef = useRef<InputRef>(null);
   const pc = useRef<RTCPeerConnection | null>(null);
   const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const [localSdp, setLocalSdp] = useState<any>();
 
   const initConnection = async () => {
     pc.current = new RTCPeerConnection(PC_CONFIG);
@@ -57,26 +67,14 @@ const StreamRoom = () => {
       offerToReceiveVideo: true,
       offerToReceiveAudio: true,
     });
-
-    if (!localSdp) {
-      return;
-    }
-
-    console.log(localSdp);
-
+    if (!localSdp) return;
     await pc.current?.setLocalDescription(new RTCSessionDescription(localSdp));
-    setLocalSdp(localSdp);
+    await sentLocalSdp(localSdp);
   };
 
   const acceptAnswer = async () => {
-    const sdp = inputRef.current?.input?.value;
-
-    await pc.current?.setRemoteDescription(
-      new RTCSessionDescription({
-        sdp,
-        type: 'answer',
-      }),
-    );
+    const sdp = await getRemoteSdp();
+    await pc.current?.setRemoteDescription(new RTCSessionDescription(sdp));
   };
 
   return (
@@ -88,12 +86,8 @@ const StreamRoom = () => {
       <Col span={24}>
         <Button onClick={createOffer}>Create Offer SDP</Button>
       </Col>
-      <Col span={24}>
-        <h1>{localSdp ? localSdp.sdp.toString() : 'Please create SDP'}</h1>
-      </Col>
 
       <Col span={24}>
-        <Input ref={inputRef} />
         <Button onClick={acceptAnswer}>Accepted Answer SDP</Button>
       </Col>
 

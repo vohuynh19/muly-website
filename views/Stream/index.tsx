@@ -1,3 +1,4 @@
+import axiosInstance from '@src/apis/axios';
 import { Button, Col, Input, InputRef, Row } from 'antd';
 import { useRef, useState } from 'react';
 
@@ -9,13 +10,22 @@ const PC_CONFIG = {
   ],
 };
 
+const sentLocalSdp = async (localSdp: RTCSessionDescriptionInit) => {
+  await axiosInstance.post('http://localhost:9000/chat/sdp', localSdp);
+};
+
+const getRemoteSdp = async (): Promise<RTCSessionDescriptionInit> => {
+  const { data } = await axiosInstance.get('http://localhost:9000/chat/sdp/hello');
+  return {
+    sdp: data[0].sdp,
+    type: data[0].type,
+  };
+};
+
 const Stream = () => {
-  const input1Ref = useRef<InputRef>(null);
-  const input2Ref = useRef<InputRef>(null);
   const pc = useRef<RTCPeerConnection | null>(null);
   const localStreamRef = useRef<MediaStream | null>(null);
   const localVideoRef = useRef<HTMLVideoElement>(null);
-  const [localSdp, setLocalSdp] = useState<any>();
 
   const startStream = async () => {
     pc.current = new RTCPeerConnection(PC_CONFIG);
@@ -46,30 +56,20 @@ const Stream = () => {
     }
   };
 
-  const acceptOffer = async () => {
-    const sdp = input1Ref.current?.input?.value;
-
-    await pc.current?.setRemoteDescription(
-      new RTCSessionDescription({
-        sdp,
-        type: 'offer',
-      }),
-    );
-  };
-
   const createAnswer = async () => {
     const localSdp = await pc.current?.createAnswer({
       offerToReceiveVideo: true,
       offerToReceiveAudio: true,
     });
-
-    if (!localSdp) {
-      return;
-    }
+    if (!localSdp) return;
 
     await pc.current?.setLocalDescription(new RTCSessionDescription(localSdp));
+    await sentLocalSdp(localSdp);
+  };
 
-    setLocalSdp(localSdp);
+  const acceptOffer = async () => {
+    const sdp = await getRemoteSdp();
+    await pc.current?.setRemoteDescription(sdp);
   };
 
   return (
@@ -79,17 +79,11 @@ const Stream = () => {
       </Col>
 
       <Col span={24}>
-        <Input ref={input1Ref} />
         <Button onClick={acceptOffer}>Accept Offer SDP</Button>
       </Col>
 
       <Col span={24}>
-        <Input ref={input2Ref} />
         <Button onClick={createAnswer}>Create Answer SDP</Button>
-      </Col>
-
-      <Col span={24}>
-        <h1>{localSdp ? localSdp.sdp.toString() : 'Please create SDP'}</h1>
       </Col>
 
       <Col span={24}>
