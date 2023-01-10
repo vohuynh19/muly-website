@@ -95,7 +95,7 @@ const StreamRoomTest = () => {
             .concat({
               id: socketID,
               email,
-              stream: e.streams[1],
+              stream: e.streams[0],
             }),
         );
       };
