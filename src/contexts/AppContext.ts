@@ -23,6 +23,8 @@ export type UserType = {
   id: string;
   userId: string;
   email: string;
+  roldId?: string;
+  avatar?: string;
 };
 export type AccountSetting = {
   isTwoFactorAuthentication: boolean;
@@ -45,6 +47,8 @@ export const defaultUser = {
   id: '',
   userId: '',
   email: '',
+  roleId: '',
+  avatar: '',
 };
 
 export const defaultSetting = {

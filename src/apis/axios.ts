@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 const requestConfig: AxiosRequestConfig = {
-  baseURL: 'http://localhost:9000',
+  baseURL: 'http://18.144.54.166:9000/',
 };
 
 const axiosInstance = axios.create(requestConfig);
