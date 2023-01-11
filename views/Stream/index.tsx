@@ -3,9 +3,11 @@ import { Button } from 'antd';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import CameraIcon from '@mui/icons-material/Camera';
 
-import { Wrapper, ScreenView, ToolBar, ToolbarButton, ScreenWrapper } from './styled';
+import { Wrapper, ScreenView, ToolBar, ToolbarButton, ScreenWrapper, BecomeStreammer } from './styled';
 import PostModal, { ModelHandler } from './PostModal';
 import AppContext from '@src/contexts/AppContext';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
+import BecomeModal from './BecomeModal';
 
 const Stream = () => {
   const { user } = useContext(AppContext);
@@ -19,6 +21,7 @@ const Stream = () => {
   const streamDisplayRef = useRef<MediaStream | null>(null);
 
   const modelRef = useRef<ModelHandler>(null);
+  const becomeRef = useRef<ModelHandler>(null);
 
   const turnCamera = () => {
     if (isTurnOnCamera) {
@@ -68,7 +71,24 @@ const Stream = () => {
     };
   }, []);
 
-  if (!user.roldId) {
+  if (!user.roleId) {
+    return (
+      <BecomeStreammer>
+        <LiveTvIcon />
+
+        <Button
+          size="large"
+          type="primary"
+          onClick={() => {
+            becomeRef.current?.toggle();
+          }}
+        >
+          Become A Streamer
+        </Button>
+
+        <BecomeModal ref={becomeRef} />
+      </BecomeStreammer>
+    );
   }
 
   return (

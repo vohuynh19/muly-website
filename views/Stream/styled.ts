@@ -1,9 +1,10 @@
-import { Form } from 'antd';
+import { Form, Modal } from 'antd';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   width: 100%;
   display: flex;
+  color: ${({ theme }) => theme.colors.text};
 `;
 export const ScreenWrapper = styled.div`
   flex: 1;
@@ -51,5 +52,27 @@ export const StyledForm = styled(Form)`
   font-weight: 500;
   input {
     width: 100% !important;
+  }
+`;
+
+export const BecomeStreammer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 600px;
+
+  svg {
+    font-size: 200px;
+    margin-bottom: 32px;
+  }
+`;
+
+export const StyledModal = styled(Modal)`
+  text-align: center;
+
+  .release {
+    font-size: 120px;
   }
 `;
