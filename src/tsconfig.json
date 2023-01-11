@@ -16,10 +16,10 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"],
+      "@src/*": ["./core/*"],
       "@components/*": ["./components/*"],
       "@views/*": ["./views/*"],
-      "@utils/*": ["./src/utils/*"],
+      "@utils/*": ["./core/utils/*"],
       "~/*": ["./*"]
     }
   },
