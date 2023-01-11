@@ -23,7 +23,7 @@ export type UserType = {
   id: string;
   userId: string;
   email: string;
-  roldId?: string;
+  roleId?: string;
   avatar?: string;
 };
 export type AccountSetting = {
