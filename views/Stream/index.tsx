@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
 import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import CameraIcon from '@mui/icons-material/Camera';
 
 import { Wrapper, ScreenView, ToolBar, ToolbarButton, ScreenWrapper } from './styled';
 import PostModal, { ModelHandler } from './PostModal';
+import AppContext from '@src/contexts/AppContext';
 
 const Stream = () => {
+  const { user } = useContext(AppContext);
   const [isShareScreen, setIsShareScreen] = useState(false);
   const [isTurnOnCamera, setIsTurnOnCamera] = useState(false);
 
@@ -65,6 +67,9 @@ const Stream = () => {
       disconnectDisplay();
     };
   }, []);
+
+  if (!user.roldId) {
+  }
 
   return (
     <Wrapper>
