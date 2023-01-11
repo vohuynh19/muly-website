@@ -47,7 +47,6 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <link rel="shortcut icon" href="/favicon.ico" />
-          <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
         </Head>
         <body>
           <Main />
