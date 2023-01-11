@@ -1,5 +1,5 @@
-import { createContext, useContext, Dispatch } from "react";
-import { ThemeContext } from "styled-components";
+import { createContext, useContext, Dispatch } from 'react';
+import { ThemeContext } from 'styled-components';
 
 type AppContextType = {
   isDark: boolean;
@@ -23,10 +23,6 @@ export type UserType = {
   id: string;
   userId: string;
   email: string;
-  phoneNumber: string;
-  identityVerificationStatus: string;
-  isWhiteLabel: boolean;
-  refRate: number;
 };
 export type AccountSetting = {
   isTwoFactorAuthentication: boolean;
@@ -46,13 +42,9 @@ export type LocaleSetting = {
 };
 
 export const defaultUser = {
-  id: "",
-  userId: "",
-  email: "",
-  phoneNumber: "",
-  identityVerificationStatus: "",
-  isWhiteLabel: false,
-  refRate: 0,
+  id: '',
+  userId: '',
+  email: '',
 };
 
 export const defaultSetting = {
@@ -62,14 +54,14 @@ export const defaultSetting = {
   isEmailConfirmed: false,
   isPhoneConfirmed: false,
   isActive: false,
-  antiPhishingCode: "",
+  antiPhishingCode: '',
   isEnableFundPassword: false,
   isWithdrawalWhitelist: false,
-  twoFactorCode: "",
+  twoFactorCode: '',
 };
 
 export const defaultLocaleSetting = {
-  lang: "en",
+  lang: 'en',
 };
 
 export const defaultFunction = () => {};

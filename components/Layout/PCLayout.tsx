@@ -1,10 +1,10 @@
-import { Popover, Row, Space, Col, Button } from 'antd';
+import { Popover, Row, Space, Col, Button, message } from 'antd';
 import Link from 'next/link';
 import Image from 'next/image';
 import TranslateIcon from '@mui/icons-material/Translate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { PAGE_ROUTES } from '@src/utils/constants/routes';
 
 import { HeaderIcon, StyledContent, StyledFooter, StyledHeader, StyledLayout, StyledMenu } from './styled';
@@ -12,13 +12,23 @@ import SearchBar from '../SearchBar';
 import { footerColumns, localePopoverContent, itemList } from '.';
 import { useState } from 'react';
 import { useContext } from 'react';
-import AppContext from '@src/contexts/AppContext';
+import AppContext, { defaultUser } from '@src/contexts/AppContext';
 import { useLocale } from '@src/hooks/useLocale';
+import { useRouter } from 'next/router';
 
 const PCLayout = ({ children }: any) => {
   const { t } = useLocale('common');
-  const { isDark, switchTheme, setLocaleSetting } = useContext(AppContext);
+  const { isDark, switchTheme, setLocaleSetting, user, setUser } = useContext(AppContext);
   const [collapsed, setCollapsed] = useState(false);
+  const router = useRouter();
+
+  const signOut = () => {
+    setUser(defaultUser);
+    localStorage.removeItem('access-token');
+    localStorage.removeItem('refresh-token');
+    router.push(PAGE_ROUTES.LOGIN);
+    message.success('Log out success');
+  };
 
   return (
     <StyledLayout>
@@ -40,9 +50,23 @@ const PCLayout = ({ children }: any) => {
 
           <HeaderIcon onClick={() => switchTheme(!isDark)}>{isDark ? <DarkModeIcon /> : <ModeNightIcon />}</HeaderIcon>
 
-          <Link href={PAGE_ROUTES.LOGIN}>
-            <Button type="primary">Sign in</Button>
-          </Link>
+          {user.email ? (
+            <Link href={PAGE_ROUTES.PROFILE}>
+              <Popover
+                content={() => (
+                  <Button type="primary" onClick={signOut}>
+                    Log out
+                  </Button>
+                )}
+              >
+                <AccountCircleIcon style={{ marginTop: 28 }} fontSize="large" />
+              </Popover>
+            </Link>
+          ) : (
+            <Link href={PAGE_ROUTES.LOGIN}>
+              <Button type="primary">Sign in</Button>
+            </Link>
+          )}
         </Space>
       </StyledHeader>
 
