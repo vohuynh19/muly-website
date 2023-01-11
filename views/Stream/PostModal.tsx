@@ -1,9 +1,12 @@
 import { Input, Modal, Upload, message } from 'antd';
-import { forwardRef, ForwardRefRenderFunction, useImperativeHandle, useState } from 'react';
+import { forwardRef, ForwardRefRenderFunction, useImperativeHandle, useRef, useState } from 'react';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { StyledForm } from './styled';
+import { useMutation } from 'react-query';
+import axiosInstance from '@src/apis/axios';
+import { ENDPOINTS } from '@src/apis/endpoints';
 
 type Props = {};
 export type ModelHandler = {
@@ -34,6 +37,10 @@ const PostModal: ForwardRefRenderFunction<ModelHandler, Props> = ({}, ref) => {
   const [form] = useForm();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const base64 = useRef('');
+  const { mutate, isLoading } = useMutation<any, any, any, any>((params) => {
+    return axiosInstance.post(ENDPOINTS.STREAM_ROOM.CREATE, params);
+  });
 
   const [open, setOpen] = useState(false);
   useImperativeHandle(ref, () => ({
@@ -61,13 +68,33 @@ const PostModal: ForwardRefRenderFunction<ModelHandler, Props> = ({}, ref) => {
     </div>
   );
 
+  const submitHandler = () => {
+    const data = form.getFieldsValue();
+    mutate(
+      {
+        title: data.title,
+        thumnail: base64.current,
+        des: data.des,
+      },
+      {
+        onSuccess: ({ data }) => {
+          setOpen(false);
+          message.success('Stream Success');
+        },
+        onError: (error) => {
+          message.error(error);
+        },
+      },
+    );
+  };
+
   return (
-    <Modal open={open} onCancel={() => setOpen(false)}>
+    <Modal open={open} onCancel={() => setOpen(false)} onOk={submitHandler} okButtonProps={{ loading: isLoading }}>
       <StyledForm form={form} layout="vertical">
-        <Item label={'Title'}>
+        <Item name={'title'} label={'Title'}>
           <Input placeholder="Enter title" size="large" />
         </Item>
-        <Item label={'Description'}>
+        <Item name={'des'} label={'Description'}>
           <Input placeholder="Enter Description" size="large" />
         </Item>
 
@@ -82,6 +109,7 @@ const PostModal: ForwardRefRenderFunction<ModelHandler, Props> = ({}, ref) => {
               reader.readAsBinaryString(file);
               reader.onloadend = function () {
                 const base64Image = btoa(this.result as string);
+                base64.current = base64Image;
               };
 
               return '';
