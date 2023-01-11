@@ -1,0 +1,12 @@
+{
+  "login": "Login",
+  "home": "Home",
+  "questions": "Questions",
+  "createQuest":"Create Quest",
+  "profile": "Profile",
+  "english": "English",
+  "vietnamese": "Vietnamese",
+  "selectWallet":"Select Wallet",
+  "selectWalletPlaceholder":"Please connect your Solana wallet.",
+  "authRequiredDesc":"Please sign in with your account"
+}
