@@ -1,25 +1,16 @@
-const PREFIX = "/api/v1";
-
-// CREATE QUEST
-// CREATE SOLUTION
-// CREATE VOTE
-
 export const ENDPOINTS = {
-  QUEST: {
-    GET: `${PREFIX}/quest`,
-    JOIN: `${PREFIX}/join-quest`,
-    FUND: `${PREFIX}/fund-quest`,
-    CREATE: `${PREFIX}/create-quest`,
+  CHAT: {
+    CREATE: '/chat/create',
+    GET: '/chat',
   },
-  COMMENT: {
-    GET: `${PREFIX}/solution`,
-    CREATE: `${PREFIX}/create-solution`,
-    UPDATE: `${PREFIX}/update-solution`,
+  AUTH: {
+    UPDATE_USER: '/auth/update-user',
+    REGISTER: '/auth/register',
+    LOGIN: '/auth/login',
   },
-  FUND: {
-    GET: `${PREFIX}/funding-state`,
-    CREATE: `${PREFIX}/create-funding-state`,
+  STREAM_ROOM: {
+    GET: '/stream-room',
+    UPDATE: '/stream-room/update',
+    CREATE: '/stream-room/create',
   },
-  VOTE: `${PREFIX}/vote`,
-  LIKE: `${PREFIX}/like`,
 };

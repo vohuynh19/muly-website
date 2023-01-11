@@ -1,14 +1,18 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
 const requestConfig: AxiosRequestConfig = {
-  baseURL: process.env.REACT_APP_BASE_API_URL,
+  baseURL: 'http://localhost:9000',
 };
 
 const axiosInstance = axios.create(requestConfig);
 
 axiosInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    // config.baseURL = 'http://localhost:9000';
+  (config: any) => {
+    const token = localStorage.getItem('access-token');
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
   },
   (error) => {

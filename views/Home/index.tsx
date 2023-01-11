@@ -7,31 +7,31 @@ const mock = [
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
     title: 'Loc Phu Ho',
-    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
+    des: 'Loc phu ho xin chao tat ca cac ban',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
     title: 'Loc Phu Ho',
-    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
+    des: 'Loc phu ho xin chao tat ca cac ban',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
     title: 'Loc Phu Ho',
-    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
+    des: 'Loc phu ho xin chao tat ca cac ban',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
     title: 'Loc Phu Ho',
-    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
+    des: 'Loc phu ho xin chao tat ca cac ban',
   },
   {
     id: uuid(),
     src: 'assets/images/video-thumbnail-3.jpeg',
     title: 'Loc Phu Ho',
-    des: 'Stream title dai vai lol ne thang ngu hocccccccccccccccdddddddd',
+    des: 'Loc phu ho xin chao tat ca cac ban',
   },
 ];
 const Home = () => {
