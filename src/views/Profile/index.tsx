@@ -1,8 +1,14 @@
 import { Button, Input, message, Upload } from 'antd';
 import { RcFile, UploadChangeParam, UploadFile, UploadProps } from 'antd/es/upload';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyledForm, Wrapper } from './styled';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import AppContext from '@core/contexts/AppContext';
+import { useMutation } from 'react-query';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 const { Item, useForm } = StyledForm;
 
@@ -28,6 +34,17 @@ const Profile = () => {
   const [form] = useForm();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
+  const { user, setUser } = useContext(AppContext);
+  const { mutate, isLoading } = useMutation<any, any, any, any>((params) => {
+    return axiosInstance.post(ENDPOINTS.AUTH.UPDATE_USER, params);
+  });
+  const imgRef = useRef('');
+
+  useEffect(() => {
+    if (user.avatar) {
+      setImageUrl(`data:image/jpeg;base64, ${user.avatar}`);
+    }
+  }, [user]);
 
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     if (info.file.status === 'uploading') {
@@ -50,7 +67,20 @@ const Profile = () => {
     </div>
   );
 
-  const saveHandler = () => {};
+  const saveHandler = () => {
+    mutate(
+      { avatar: imgRef.current },
+      {
+        onSuccess: ({ data }) => {
+          setUser(data);
+          message.success('Upload avatar success');
+        },
+        onError: (err) => {
+          message.error(err);
+        },
+      },
+    );
+  };
 
   return (
     <Wrapper>
@@ -64,7 +94,7 @@ const Profile = () => {
             const reader = new FileReader();
             reader.readAsBinaryString(file);
             reader.onloadend = function () {
-              const base64Image = btoa(this.result as string);
+              imgRef.current = btoa(this.result as string);
             };
 
             return '';
@@ -77,17 +107,21 @@ const Profile = () => {
       </div>
 
       <StyledForm form={form} layout="vertical" autoComplete="off">
-        <Item label={'Username'}>
-          <Input disabled placeholder="Enter password" size="large" value={'vohuynh19'} />
+        <Item label={'Id'}>
+          <Input disabled size="large" value={user._id} />
         </Item>
         <Item label={'Email'}>
-          <Input disabled placeholder="Enter password" size="large" value={'vhuynh19@gmail.com'} />
-        </Item>
-        <Item label={'Phone'}>
-          <Input disabled placeholder="Enter password" size="large" value={'+84 12312312'} />
+          <Input disabled size="large" value={user.email} />
         </Item>
 
-        <Button htmlType="submit" size={'large'} type="primary" onClick={saveHandler} style={{ width: '100%', marginTop: 32 }}>
+        <Button
+          loading={isLoading}
+          htmlType="submit"
+          size={'large'}
+          type="primary"
+          onClick={saveHandler}
+          style={{ width: '100%', marginTop: 32 }}
+        >
           Save Information
         </Button>
       </StyledForm>
