@@ -13,11 +13,11 @@ const { Item, useForm } = StyledForm;
 const Register = () => {
   const [form] = useForm();
   const mutate = useMutation<any, any, any, any>((params) => {
-    return axiosInstance.post(ENDPOINTS.AUTH.LOGIN, params);
+    return axiosInstance.post(ENDPOINTS.AUTH.REGISTER, params);
   });
   const router = useRouter();
 
-  const signInHandler = () => {
+  const signUpHandler = () => {
     console.log(form.getFieldsValue());
     mutate.mutate(form.getFieldsValue(), {
       onSuccess: () => {
@@ -33,14 +33,14 @@ const Register = () => {
   return (
     <Wrapper>
       <Container>
-        <StyledForm form={form} layout="vertical" autoComplete="off" onFinish={signInHandler}>
-          <Item label={'Username or Email'}>
+        <StyledForm form={form} layout="vertical" autoComplete="off" onFinish={signUpHandler}>
+          <Item name="email" label={'Username or Email'}>
             <Input placeholder="Enter password" size="large" />
           </Item>
-          <Item label={'Password'}>
+          <Item name="password" label={'Password'}>
             <Input placeholder="Enter password" size="large" />
           </Item>
-          <Item label={'Confirm Password'}>
+          <Item name="confirmPassword" label={'Confirm Password'}>
             <Input placeholder="Enter password" size="large" />
           </Item>
 
