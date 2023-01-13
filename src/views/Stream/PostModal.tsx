@@ -5,8 +5,8 @@ import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { StyledForm } from './styled';
 import { useMutation } from 'react-query';
-import axiosInstance from '@src/apis/axios';
-import { ENDPOINTS } from '@src/apis/endpoints';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
 
 type Props = {};
 export type ModelHandler = {

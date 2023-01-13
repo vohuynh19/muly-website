@@ -1,6 +1,6 @@
-import axiosInstance from '@src/apis/axios';
-import { ENDPOINTS } from '@src/apis/endpoints';
-import { uuid } from '@src/utils/functions/uuid';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
+import { uuid } from '@core/utils/functions/uuid';
 import { useQuery } from 'react-query';
 import Item from './Item';
 import { HorizontalList, Section, Text } from './styled';

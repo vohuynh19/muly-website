@@ -3,16 +3,16 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Link from 'next/link';
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 
 import { TextHighlight } from '@components/Text';
 import { Container, SocialButton, StyledButton, StyledForm, Wrapper } from './styled';
 import { useMutation } from 'react-query';
-import axiosInstance from '@src/apis/axios';
-import { ENDPOINTS } from '@src/apis/endpoints';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
-import AppContext from '@src/contexts/AppContext';
+import AppContext from '@core/contexts/AppContext';
 
 const { Item, useForm } = StyledForm;
 

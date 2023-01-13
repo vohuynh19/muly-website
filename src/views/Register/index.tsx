@@ -1,11 +1,11 @@
 import { Input, message } from 'antd';
 import Link from 'next/link';
 
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 import { Container, StyledButton, StyledForm, Wrapper } from './styled';
 import { useMutation } from 'react-query';
-import axiosInstance from '@src/apis/axios';
-import { ENDPOINTS } from '@src/apis/endpoints';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
 import { useRouter } from 'next/router';
 
 const { Item, useForm } = StyledForm;

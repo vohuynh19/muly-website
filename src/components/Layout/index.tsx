@@ -6,8 +6,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import CastIcon from '@mui/icons-material/Cast';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
-import useWindowSizes from '@src/hooks/useWindowSize';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
+import useWindowSizes from '@core/hooks/useWindowSize';
 
 import PCLayout from './PCLayout';
 import MobileLayout from './MobileLayout';

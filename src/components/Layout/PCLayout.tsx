@@ -5,15 +5,15 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 
 import { HeaderIcon, StyledContent, StyledFooter, StyledHeader, StyledLayout, StyledMenu } from './styled';
 import SearchBar from '../SearchBar';
 import { footerColumns, localePopoverContent, itemList } from '.';
 import { useState } from 'react';
 import { useContext } from 'react';
-import AppContext, { defaultUser } from '@src/contexts/AppContext';
-import { useLocale } from '@src/hooks/useLocale';
+import AppContext, { defaultUser } from '@core/contexts/AppContext';
+import { useLocale } from '@core/hooks/useLocale';
 import { useRouter } from 'next/router';
 
 const PCLayout = ({ children }: any) => {
@@ -29,6 +29,8 @@ const PCLayout = ({ children }: any) => {
     router.push(PAGE_ROUTES.LOGIN);
     message.success('Log out success');
   };
+
+  const isIgnoreSider = !router.pathname.includes(PAGE_ROUTES.LOGIN) || !router.pathname.includes(PAGE_ROUTES.REGISTER);
 
   return (
     <StyledLayout>
@@ -71,9 +73,11 @@ const PCLayout = ({ children }: any) => {
       </StyledHeader>
 
       <StyledLayout>
-        <StyledLayout.Sider className="pc-sider" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-          <StyledMenu mode="vertical" items={itemList(t)} defaultOpenKeys={['board']} defaultSelectedKeys={['0']} />
-        </StyledLayout.Sider>
+        {isIgnoreSider && (
+          <StyledLayout.Sider className="pc-sider" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <StyledMenu mode="vertical" items={itemList(t)} defaultOpenKeys={['board']} defaultSelectedKeys={['0']} />
+          </StyledLayout.Sider>
+        )}
         <StyledContent>{children}</StyledContent>
       </StyledLayout>
 

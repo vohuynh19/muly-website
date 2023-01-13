@@ -5,7 +5,7 @@ import CameraIcon from '@mui/icons-material/Camera';
 
 import { Wrapper, ScreenView, ToolBar, ToolbarButton, ScreenWrapper, BecomeStreammer } from './styled';
 import PostModal, { ModelHandler } from './PostModal';
-import AppContext from '@src/contexts/AppContext';
+import AppContext from '@core/contexts/AppContext';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import BecomeModal from './BecomeModal';
 

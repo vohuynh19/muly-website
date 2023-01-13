@@ -5,7 +5,7 @@ const View = () => {
   return (
     <>
       <Head>
-        <title>Loper website</title>
+        <title>muly | Streaming platform</title>
       </Head>
       <Home />
     </>

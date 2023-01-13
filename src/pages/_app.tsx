@@ -7,9 +7,9 @@ import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 
-import AppContext, { defaultUser, defaultSetting, UserType } from '@src/contexts/AppContext';
-import { COOKIE_KEY } from '@src/utils/constants/key';
-import createEmotionCache from '@src/utils/functions/createEmotionCache';
+import AppContext, { defaultUser, defaultSetting, UserType } from '@core/contexts/AppContext';
+import { COOKIE_KEY } from '@core/utils/constants/key';
+import createEmotionCache from '@core/utils/functions/createEmotionCache';
 
 import LayoutComponent from '@components/Layout';
 import { themes, GlobalStyle } from '~/styles/theme';
@@ -17,7 +17,7 @@ import '../styles/globals.scss';
 
 import commonLocaleVi from '~/public/locales/vi.json';
 import commonLocaleEn from '~/public/locales/en.json';
-import axiosInstance from '@src/apis/axios';
+import axiosInstance from '@core/apis/axios';
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

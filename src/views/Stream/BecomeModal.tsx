@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import { forwardRef, ForwardRefRenderFunction, useContext, useImperativeHandle, useState } from 'react';
 import { useMutation } from 'react-query';
 
-import axiosInstance from '@src/apis/axios';
-import { ENDPOINTS } from '@src/apis/endpoints';
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import axiosInstance from '@core/apis/axios';
+import { ENDPOINTS } from '@core/apis/endpoints';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 
 import { StyledForm, StyledModal } from './styled';
-import AppContext from '@src/contexts/AppContext';
+import AppContext from '@core/contexts/AppContext';
 type Props = {};
 export type ModelHandler = {
   toggle: () => void;

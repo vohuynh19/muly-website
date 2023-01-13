@@ -1,4 +1,4 @@
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 import Link from 'next/link';
 import { FC } from 'react';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';

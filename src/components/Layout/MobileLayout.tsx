@@ -8,9 +8,9 @@ import ModeNightIcon from '@mui/icons-material/ModeNight';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import AppContext from '@src/contexts/AppContext';
-import { useLocale } from '@src/hooks/useLocale';
-import { PAGE_ROUTES } from '@src/utils/constants/routes';
+import AppContext from '@core/contexts/AppContext';
+import { useLocale } from '@core/hooks/useLocale';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 
 import SearchBar from '../SearchBar';
 import { footerColumns, localePopoverContent, itemList } from '.';

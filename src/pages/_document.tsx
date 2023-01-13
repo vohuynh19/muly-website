@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
-import createEmotionCache from '@src/utils/functions/createEmotionCache';
+import createEmotionCache from '@core/utils/functions/createEmotionCache';
 import { AppType } from 'next/app';
 import { EmotionCache } from '@emotion/react';
 
@@ -46,7 +46,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/assets/images/favicon.png" />
         </Head>
         <body>
           <Main />
