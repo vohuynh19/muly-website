@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
@@ -36,6 +36,10 @@ const ChatBox: FC<Props> = ({ roomId }) => {
       limit: 1000000,
     }),
   );
+
+  const processedData: any = useMemo(() => {
+    return data?.data.docs.map((record: any) => ({ ...record, email: record.userId.email, avatar: record.userId.avatar })) || [];
+  }, [data]);
 
   useEffect(() => {
     socketRef.current = io(`${BASE_URL}:9001/`, {
@@ -79,7 +83,7 @@ const ChatBox: FC<Props> = ({ roomId }) => {
     <Wrapper>
       <Head>Chat room</Head>
       <Content>
-        {messages?.reverse().map((message) => (
+        {processedData?.reverse().map((message: any) => (
           <Message key={uuid()} {...message} />
         ))}
       </Content>

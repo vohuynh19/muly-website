@@ -30,12 +30,26 @@ export const ItemWrapper = styled.div<ItemWrapperProps>`
     align-items: center;
     opacity: 0.4;
   }
+  .background {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: ${({ theme }) => theme.colors.sBg};
+  }
 
+  overflow-y: hidden;
   @media (max-width: 768px) {
     width: 100%;
   }
 
   :hover {
+    .background {
+      opacity: 1;
+    }
+
     .player {
       opacity: 1;
       svg {

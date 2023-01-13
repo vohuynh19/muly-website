@@ -4,9 +4,11 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import type { UploadChangeParam } from 'antd/es/upload';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { StyledForm } from './styled';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import axiosInstance from '@core/apis/axios';
 import { ENDPOINTS } from '@core/apis/endpoints';
+import { useRouter } from 'next/router';
+import { PAGE_ROUTES } from '@core/utils/constants/routes';
 
 type Props = {};
 export type ModelHandler = {
@@ -36,8 +38,10 @@ const beforeUpload = (file: RcFile) => {
 const PostModal: ForwardRefRenderFunction<ModelHandler, Props> = ({}, ref) => {
   const [form] = useForm();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [imageUrl, setImageUrl] = useState<string>();
   const base64 = useRef('');
+  const clientQuery = useQueryClient();
   const { mutate, isLoading } = useMutation<any, any, any, any>((params) => {
     return axiosInstance.post(ENDPOINTS.STREAM_ROOM.CREATE, params);
   });
@@ -80,6 +84,8 @@ const PostModal: ForwardRefRenderFunction<ModelHandler, Props> = ({}, ref) => {
         onSuccess: ({ data }) => {
           setOpen(false);
           message.success('Stream Success');
+          router.push(PAGE_ROUTES.HOME);
+          clientQuery.invalidateQueries('stream-room/all');
         },
         onError: (error) => {
           message.error(error);

@@ -5,6 +5,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import { ItemWrapper } from './styled';
 import { Text } from './styled';
+
 type ItemProps = {
   id: string;
   src: string;
@@ -14,10 +15,20 @@ type ItemProps = {
   width?: string;
   isBanner?: boolean;
 };
+
 const Item: FC<ItemProps> = (props: ItemProps) => {
   return (
     <Link href={PAGE_ROUTES.STREAM_ROOM(props.id)}>
-      <ItemWrapper height={props.height} width={props.width} style={{ backgroundImage: `url(${props.src})` }}>
+      <ItemWrapper
+        height={props.height}
+        width={props.width}
+        style={{ backgroundImage: `url(data:image/jpeg;base64, ${props.src})` }}
+      >
+        {
+          // eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element
+          <img src={`data:image/jpeg;base64, ${props.src}`} className="background" />
+        }
+
         {props.isBanner ? (
           <>
             <Text bottom={80} left={16} weight={700} size="xxl">
