@@ -59,8 +59,8 @@ const ChatBox: FC<Props> = ({ roomId }) => {
   }, [roomId]);
 
   useEffect(() => {
-    setMessages(data?.data.docs);
-  }, [data?.data]);
+    setMessages(processedData);
+  }, [processedData]);
 
   const sendMessage = (message: string) => {
     socketRef.current!.emit('send chat', {
@@ -83,7 +83,7 @@ const ChatBox: FC<Props> = ({ roomId }) => {
     <Wrapper>
       <Head>Chat room</Head>
       <Content>
-        {processedData?.reverse().map((message: any) => (
+        {messages?.reverse().map((message: any) => (
           <Message key={uuid()} {...message} />
         ))}
       </Content>
