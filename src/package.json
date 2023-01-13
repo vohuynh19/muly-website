@@ -42,7 +42,6 @@
     "uuid": "^9.0.0",
     "webrtc-adapter": "^8.2.0"
   },
-  "proxy": "http://localhost:9000",
   "resolutions": {
     "styled-components": "^5"
   },
