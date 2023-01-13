@@ -18,6 +18,7 @@ export const Head = styled.div`
 export const Content = styled.div`
   padding: 8px;
   flex: 1;
+  overflow: auto;
 `;
 export const ItemWrapper = styled.div`
   color: ${({ theme }) => theme.colors.text};

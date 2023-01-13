@@ -15,7 +15,7 @@ const StreamRoom = (props: any) => {
       </Col>
 
       <Col span={6}>
-        <ChatBox />
+        <ChatBox roomId={props.slug} />
       </Col>
     </Row>
   );

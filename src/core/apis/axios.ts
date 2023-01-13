@@ -1,7 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
+export const BASE_URL = 'http://18.144.54.166';
+
 const requestConfig: AxiosRequestConfig = {
-  baseURL: 'http://18.144.54.166:9000/',
+  baseURL: `${BASE_URL}:9000/`,
 };
 
 const axiosInstance = axios.create(requestConfig);

@@ -20,7 +20,7 @@ type AppContextType = {
 };
 
 export type UserType = {
-  id: string;
+  _id: string;
   userId: string;
   email: string;
   roleId: string;
@@ -44,7 +44,7 @@ export type LocaleSetting = {
 };
 
 export const defaultUser = {
-  id: '',
+  _id: '',
   userId: '',
   email: '',
   roleId: '',

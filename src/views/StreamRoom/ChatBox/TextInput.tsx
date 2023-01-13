@@ -1,7 +1,10 @@
-import { Input, Space } from 'antd';
+import { Form, Input, Space } from 'antd';
+import { FC, useState } from 'react';
+import styled from 'styled-components';
+
 import SendIcon from '@mui/icons-material/Send';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import styled from 'styled-components';
+import { useQuery } from 'react-query';
 
 const SInput = styled(Input)`
   background-color: transparent;
@@ -22,18 +25,35 @@ const SInput = styled(Input)`
   }
 `;
 
-const TextInput = () => {
+type Props = {
+  onSendMessage: (message: string) => void;
+};
+
+const TextInput: FC<Props> = ({ onSendMessage }) => {
+  const [message, setMessage] = useState('');
+
   return (
-    <SInput
-      size="large"
-      suffix={
-        <Space size={16}>
-          <EmojiEmotionsIcon />
-          <SendIcon />
-        </Space>
-      }
-      placeholder={'Chat here...'}
-    />
+    <Form
+      onFinish={() => {
+        onSendMessage(message);
+        setMessage('');
+      }}
+    >
+      <SInput
+        size="large"
+        suffix={
+          <Space size={16}>
+            <EmojiEmotionsIcon />
+            <SendIcon onClick={() => onSendMessage(message)} />
+          </Space>
+        }
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+        placeholder={'Chat here...'}
+      />
+
+      <button style={{ display: 'none' }} type="submit" />
+    </Form>
   );
 };
 
